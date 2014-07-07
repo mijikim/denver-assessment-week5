@@ -23,7 +23,7 @@ class ContactsApp < Sinatra::Base
   get "/" do
     if session[:user_id]
       @loggedinuser = @user_database.find(session[:user_id])
-      erb :login
+      erb :contacts
     else
       erb :homepage
     end
@@ -31,6 +31,22 @@ class ContactsApp < Sinatra::Base
 
   get "/login" do
     erb :login
+  end
+
+  post "/login" do
+    valid_user = @user_database.all.find do |user_hash|
+      user_hash[:username] == params[:username] && user_hash[:password] == params[:password]
+    end
+    if valid_user
+      session[:user_id] = valid_user[:id]
+    end
+    # flash[:notice]="Welcome #{valid_user[:id]}"
+    redirect "/"
+  end
+
+  post "/logout" do
+    session.clear
+    redirect"/"
   end
 
 end

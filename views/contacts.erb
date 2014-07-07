@@ -1,0 +1,8 @@
+Welcome <%= @loggedinuser[:username] %>
+
+<% contacts = @contact_database.find_for_user(session[:user_id]) %>
+
+<%= contacts[:name] %>
+<%= contacts[:email] %>
+
+<a href = '/logout'>Log Out</a>
