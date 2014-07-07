@@ -21,7 +21,12 @@ class ContactsApp < Sinatra::Base
   end
 
   get "/" do
-    "Hello week 5"
+    if session[:user_id]
+      @loggedinuser = @user_database.find(session[:user_id])
+      erb :login
+    else
+      erb :homepage
+    end
   end
 
 end
